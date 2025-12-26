@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  curso-app:
+    image: spring-curso:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: curso-springboot
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/curso_db
+      SPRING_DATASOURCE_USERNAME: curso
+      SPRING_DATASOURCE_PASSWORD: curso
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - redmaster
+
+networks:
+  redmaster:
+    external: true

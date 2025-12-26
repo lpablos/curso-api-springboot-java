@@ -1,0 +1,47 @@
+# ===============================
+# Etapa 1: Build con Maven
+# ===============================
+#FROM eclipse-temurin:17-jdk AS build
+FROM  eclipse-temurin:17.0.17_10-jdk
+
+# DIRECTORIO DE TRABAJO
+WORKDIR /app
+
+# COPIAR Y PEGAR ARCHIVOS DENTRO DEL CONTENEDOR
+# COPY ORIGIEN DESTINEO
+# Copiamos primero pom.xml para aprovechar cache de Docker
+COPY ./pom.xml /app
+COPY ./.mvn /app/.mvn
+COPY ./mvnw /app
+
+#Descargamos las dependencias
+RUN ./mvnw dependency:go-offline
+# Damos permisos de ejecucion al mvnw
+RUN chmod +x mvnw
+
+# Copiamos codigo fuente al contenedor
+COPY src /app/src
+
+# Construimos nuestra aplicacion
+# -DskipTests : para no ejecutar los tests
+# no creara una carpeta target con el .jar generado
+RUN ./mvnw clean install -DskipTests
+#RUN ./mvnw clean package -DskipTests
+
+# Comando para ejecutar la aplicacion
+ENTRYPOINT ["java", "-jar", "/app/target/curso-0.0.1-SNAPSHOT.jar"]
+# Puerto que expone la aplicacion
+EXPOSE 8080
+
+
+# ===============================
+# Etapa 2: Runtime
+# ===============================
+#FROM eclipse-temurin:17-jre
+
+#WORKDIR /app
+
+# Copiamos el jar generado
+#COPY --from=build /app/target/curso-0.0.1-SNAPSHOT.jar app.jar
+
+
