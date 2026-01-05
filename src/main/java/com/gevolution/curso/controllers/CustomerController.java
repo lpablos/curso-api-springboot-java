@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,20 @@ public class CustomerController {
     public Customer setCliente(@RequestBody Customer customer){
         customers.add(customer);
         return customer;
+    }
+
+    @PutMapping("/cliente")
+    public Customer putCliente(@RequestBody Customer customer){
+        for(Customer c : customers){
+            if(c.getId() == customer.getId()){
+                c.setName(customer.getName());
+                c.setUsername(customer.getUsername());
+                c.setEmail(customer.getEmail());
+                c.setPassword(customer.getPassword());
+                return c;
+            }
+        }
+        return null;
     }
 
 }
