@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +56,17 @@ public class CustomerController {
                 c.setUsername(customer.getUsername());
                 c.setEmail(customer.getEmail());
                 c.setPassword(customer.getPassword());
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @DeleteMapping("/cliente/{id}")
+    public Customer deleteCliente(@PathVariable int id){
+        for(Customer c : customers){
+            if(c.getId() == id){
+                customers.remove(c);
                 return c;
             }
         }
