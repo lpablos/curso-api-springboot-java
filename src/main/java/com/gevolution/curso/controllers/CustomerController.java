@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/api/clientes")
 public class CustomerController {
     
     // Lista para ontener los clientes
@@ -28,12 +30,16 @@ public class CustomerController {
         )
     );
 
-    @GetMapping("/clientes")  
+    // @GetMapping("/clientes")  
+    // RequestMapping nos da la unificacion de rutas
+    @GetMapping
     public List<Customer> getCustomers(){
         return customers;
     }
 
-    @GetMapping("/cliente/{username}")
+    // @GetMapping("/clientes/{username}")
+    // RequestMapping nos da la unificacion de rutas y solo se deja el parametro que se pasa
+    @GetMapping("/{username}")
     public Customer getCliente(@PathVariable String username){
         for(Customer c : customers){
             if(c.getUsername().equalsIgnoreCase(username)){
@@ -43,14 +49,18 @@ public class CustomerController {
         return null;
     }
 
-    @PostMapping("/cliente")
+    // @PostMapping("/clientes")
+    // RequestMapping nos da la unificacion de rutas
+    @PostMapping
     public Customer setCliente(@RequestBody Customer customer){
         customers.add(customer);
         return customer;
     }
 
     // Actualizacion de un objecto completo de cliente
-    @PutMapping("/cliente")
+    // @PutMapping("/clientes")
+    // RequestMapping nos da la unificacion de rutas
+    @PutMapping
     public Customer putCliente(@RequestBody Customer customer){
         for(Customer c : customers){
             if(c.getId() == customer.getId()){
@@ -64,7 +74,9 @@ public class CustomerController {
         return null;
     }
 
-    @DeleteMapping("/cliente/{id}")
+    // @DeleteMapping("/clientes/{id}")
+    // RequestMapping nos da la unificacion de rutas y solo se le deja el parametro que se pasa
+    @DeleteMapping("/{id}")
     public Customer deleteCliente(@PathVariable int id){
         for(Customer c : customers){
             if(c.getId() == id){
@@ -75,7 +87,9 @@ public class CustomerController {
         return null;
     }
 
-    @PatchMapping("/cliente")
+    // @PatchMapping("/clientes")
+    // RequestMapping nos da la unificacion de rutas
+    @PatchMapping
     public Customer patchCliente(@RequestBody Customer customer){
         for(Customer c : customers){
             if(c.getId() == customer.getId()){
