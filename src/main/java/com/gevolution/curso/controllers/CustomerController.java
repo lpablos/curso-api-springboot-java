@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +49,7 @@ public class CustomerController {
         return customer;
     }
 
+    // Actualizacion de un objecto completo de cliente
     @PutMapping("/cliente")
     public Customer putCliente(@RequestBody Customer customer){
         for(Customer c : customers){
@@ -67,6 +69,28 @@ public class CustomerController {
         for(Customer c : customers){
             if(c.getId() == id){
                 customers.remove(c);
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @PatchMapping("/cliente")
+    public Customer patchCliente(@RequestBody Customer customer){
+        for(Customer c : customers){
+            if(c.getId() == customer.getId()){
+                if(customer.getName() != null){
+                    c.setName(customer.getName());
+                }
+                if(customer.getUsername() != null){
+                    c.setUsername(customer.getUsername());
+                }
+                if(customer.getEmail() != null){
+                    c.setEmail(customer.getEmail());
+                }
+                if(customer.getPassword() != null){
+                    c.setPassword(customer.getPassword());
+                }
                 return c;
             }
         }
